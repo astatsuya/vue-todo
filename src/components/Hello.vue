@@ -1,7 +1,7 @@
 <template>
   <div>
     {{ msg }}
-    <div>
+    <div class="input-area">
       <button @click="addTodo()">ADD TASK</button>
       <button @click="removeTodo()">DELETE FINISHED TASKS</button>
       <p>
@@ -10,33 +10,20 @@
       </p>
       <p>task:{{ newTodo }}</p>
     </div>
-    <div>
-      <button @click="changeShowTodo('all')">All</button>
-      <button @click="changeShowTodo('inProgress')">In progress</button>
-      <button @click="changeShowTodo('done')">Done</button>
-    </div>
-    <div class="task-list">
-      <label
-        v-for="todo in toggle"
-        :key="todo.id"
-        class="task-list__item"
-        :class="{ 'task-list__item--checked': todo.done }"
-      >
-        <input v-model="todo.done" type="checkbox" />
-        <input v-model="todo.editing" type="checkbox" />
-        <input
-          v-if="todo.editing"
-          v-model="todo.text"
-          @keyup.enter="todo.editing = !todo.editing"
-        />
-        <span v-else>{{ todo.text }}</span>
-      </label>
-    </div>
+    <ToggleArea :change-show-todo="changeShowTodo" />
+    <TaskList :todos="todos" :show-todo="showTodo" />
   </div>
 </template>
 <script>
+import TaskList from "@/components/TaskList.vue";
+import ToggleArea from "@/components/ToggleArea.vue";
+
 export default {
   name: "Hello",
+  components: {
+    TaskList,
+    ToggleArea
+  },
   data: function() {
     return {
       msg: "Welcome to my Todo",
@@ -51,24 +38,13 @@ export default {
       showTodo: "all"
     };
   },
-  computed: {
-    toggle: function() {
-      if (this.showTodo === "all") {
-        return this.todos;
-      } else if (this.showTodo === "inProgress") {
-        return this.todos.filter(todos => todos.done === false);
-      } else {
-        return this.todos.filter(todos => todos.done === true);
-      }
-    }
-  },
   methods: {
     addTodo: function() {
       let text = this.newTodo && this.newTodo.trim();
       if (!text) {
         return;
       }
-      const id = this.todos.length + 1;
+      const id = this.todos.slice(-1)[0].id + 1;
       this.todos.push({
         id: id,
         text: text,
