@@ -10,9 +10,14 @@
       </p>
       <p>task:{{ newTodo }}</p>
     </div>
+    <div>
+      <button @click="changeShowTodo('all')">All</button>
+      <button @click="changeShowTodo('inProgress')">In progress</button>
+      <button @click="changeShowTodo('done')">Done</button>
+    </div>
     <div class="task-list">
       <label
-        v-for="todo in todos"
+        v-for="todo in toggle"
         :key="todo.id"
         class="task-list__item"
         :class="{ 'task-list__item--checked': todo.done }"
@@ -42,8 +47,20 @@ export default {
         { id: 4, text: "awsome-vue", done: false },
         { id: 5, text: "vue-router", done: true }
       ],
-      newTodo: ""
+      newTodo: "",
+      showTodo: "all"
     };
+  },
+  computed: {
+    toggle: function() {
+      if (this.showTodo === "all") {
+        return this.todos;
+      } else if (this.showTodo === "inProgress") {
+        return this.todos.filter(todos => todos.done === false);
+      } else {
+        return this.todos.filter(todos => todos.done === true);
+      }
+    }
   },
   methods: {
     addTodo: function() {
@@ -51,7 +68,9 @@ export default {
       if (!text) {
         return;
       }
+      const id = this.todos.length + 1;
       this.todos.push({
+        id: id,
         text: text,
         done: false
       });
@@ -61,6 +80,9 @@ export default {
       for (let i = this.todos.length - 1; i >= 0; i--) {
         if (this.todos[i].done) this.todos.splice(i, 1);
       }
+    },
+    changeShowTodo: function(e) {
+      this.showTodo = e;
     }
   }
 };
