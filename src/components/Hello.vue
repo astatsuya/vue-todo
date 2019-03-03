@@ -1,31 +1,30 @@
 <template>
   <div>
     {{ msg }}
-    <form>
-      <button>ADD TASK</button>
-      <button>DELETE FINISHED TASKS</button>
+    <div>
+      <button @click="addTodo()">ADD TASK</button>
+      <button @click="removeTodo()">DELETE FINISHED TASKS</button>
       <p>
         input:
-        <input type="text" />
+        <input v-model="newTodo" type="text" />
       </p>
-      <p>task:</p>
-    </form>
+      <p>task:{{ newTodo }}</p>
+    </div>
     <div class="task-list">
-      <label class="task-list__item">
-        <input type="checkbox" />
-        <button>EDIT</button>vue-router
-      </label>
-      <label class="task-list__item">
-        <input type="checkbox" />
-        <button>EDIT</button>vuex
-      </label>
-      <label class="task-list__item">
-        <input type="checkbox" />
-        <button>EDIT</button>vue-loader
-      </label>
-      <label class="task-list__item--checked">
-        <input type="checkbox" />
-        <button>EDIT</button>awsome-vue
+      <label
+        v-for="todo in todos"
+        :key="todo.id"
+        class="task-list__item"
+        :class="{ 'task-list__item--checked': todo.done }"
+      >
+        <input v-model="todo.done" type="checkbox" />
+        <input v-model="todo.editing" type="checkbox" />
+        <input
+          v-if="todo.editing"
+          v-model="todo.text"
+          @keyup.enter="todo.editing = !todo.editing"
+        />
+        <span v-else>{{ todo.text }}</span>
       </label>
     </div>
   </div>
@@ -33,10 +32,36 @@
 <script>
 export default {
   name: "Hello",
-  data() {
+  data: function() {
     return {
-      msg: "Welcome to my Todo"
+      msg: "Welcome to my Todo",
+      todos: [
+        { id: 1, text: "vue-router", done: false },
+        { id: 2, text: "vuex", done: false },
+        { id: 3, text: "vue-loader", done: false },
+        { id: 4, text: "awsome-vue", done: false },
+        { id: 5, text: "vue-router", done: true }
+      ],
+      newTodo: ""
     };
+  },
+  methods: {
+    addTodo: function() {
+      let text = this.newTodo && this.newTodo.trim();
+      if (!text) {
+        return;
+      }
+      this.todos.push({
+        text: text,
+        done: false
+      });
+      this.newTodo = "";
+    },
+    removeTodo: function() {
+      for (let i = this.todos.length - 1; i >= 0; i--) {
+        if (this.todos[i].done) this.todos.splice(i, 1);
+      }
+    }
   }
 };
 </script>
