@@ -7,6 +7,21 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --ext .js src --fix",
+      "git add"
+    ],
+    "*.vue": [
+      "eslint --ext .vue src --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
