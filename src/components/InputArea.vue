@@ -1,48 +1,45 @@
 <template>
   <div class="input-area">
-    <button @click="addTodo()">ADD TASK</button>
-    <button @click="removeTodo()">DELETE FINISHED TASKS</button>
+    <button @click="addTodoFromChild">ADD TASK</button>
+    <button @click="$emit('removeTodo')">DELETE FINISHED TASKS</button>
     <p>
       input:
-      <input v-model="newTodo" type="text" />
+      <input v-model="childComputed" type="text" />
     </p>
-    <p>task:{{ newTodo }}</p>
+    <p>task:{{ childComputed }}</p>
   </div>
 </template>
 <script>
 export default {
   name: "InputArea",
   props: {
-    addTodo: {
-      type: Function,
-      default: function() {
-        return;
-      }
-    },
-    removeTodo: {
-      type: Function,
-      default: function() {
-        return;
-      }
-    },
     newTodo: {
       type: String,
       default: function() {
         return "";
       }
     }
+  },
+  data: function() {
+    return {
+      childInput: ""
+    };
+  },
+  computed: {
+    childComputed: {
+      get() {
+        return this.newTodo;
+      },
+      set(newVal) {
+        this.$emit("input", newVal);
+      }
+    }
+  },
+  methods: {
+    addTodoFromChild: function() {
+      this.$emit("addTodo");
+    }
   }
-
-  // computed: {
-  //   inputTodo: {
-  //     get: function() {
-  //       return this.newTodo;
-  //     },
-  //     set: function(newValue) {
-  //       this.$emit("input", newValue);
-  //     }
-  //   }
-  // }
 };
 </script>
 

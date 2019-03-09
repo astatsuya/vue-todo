@@ -1,26 +1,20 @@
 <template>
   <div>
     {{ msg }}
-    <div class="input-area">
-      <button @click="addTodo()">ADD TASK</button>
-      <button @click="removeTodo()">DELETE FINISHED TASKS</button>
-      <p>
-        input:
-        <input v-model="newTodo" type="text" />
-      </p>
-      <p>task:{{ newTodo }}</p>
-    </div>
-    <ToggleArea :change-show-todo="changeShowTodo" />
+    <InputArea v-model="newTodo" @addTodo="addTodo" @removeTodo="removeTodo" />
+    <ToggleArea @changeShowTodo="changeShowTodo" />
     <TaskList :todos="todos" :show-todo="showTodo" />
   </div>
 </template>
 <script>
+import InputArea from "@/components/InputArea.vue";
 import TaskList from "@/components/TaskList.vue";
 import ToggleArea from "@/components/ToggleArea.vue";
 
 export default {
   name: "Hello",
   components: {
+    InputArea,
     TaskList,
     ToggleArea
   },
@@ -39,6 +33,9 @@ export default {
     };
   },
   methods: {
+    input: function(child) {
+      this.newTodo = child;
+    },
     addTodo: function() {
       let text = this.newTodo && this.newTodo.trim();
       if (!text) {
