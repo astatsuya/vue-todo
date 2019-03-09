@@ -9,7 +9,6 @@
     />
     <ToggleArea @changeShowTodo="changeShowTodo" />
     <TaskList :todos="todos" :show-todo="showTodo" />
-    {{ newTodo }}
   </div>
 </template>
 <script>
