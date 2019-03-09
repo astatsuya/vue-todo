@@ -1,9 +1,15 @@
 <template>
   <div>
     {{ msg }}
-    <InputArea v-model="newTodo" @addTodo="addTodo" @removeTodo="removeTodo" />
+    <InputArea
+      :new-todo="newTodo"
+      @input="input"
+      @addTodo="addTodo"
+      @removeTodo="removeTodo"
+    />
     <ToggleArea @changeShowTodo="changeShowTodo" />
     <TaskList :todos="todos" :show-todo="showTodo" />
+    {{ newTodo }}
   </div>
 </template>
 <script>

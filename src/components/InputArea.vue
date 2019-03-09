@@ -1,12 +1,12 @@
 <template>
   <div class="input-area">
-    <button @click="addTodoFromChild">ADD TASK</button>
+    <button @click="addTaskFromChild">ADD TASK</button>
     <button @click="$emit('removeTodo')">DELETE FINISHED TASKS</button>
     <p>
       input:
-      <input v-model="childComputed" type="text" />
+      <input v-model="childInput" type="text" />
     </p>
-    <p>task:{{ childComputed }}</p>
+    <p>task:{{ childInput }}</p>
   </div>
 </template>
 <script>
@@ -22,22 +22,32 @@ export default {
   },
   data: function() {
     return {
-      childInput: ""
+      childInput: this.newTodo
     };
   },
-  computed: {
-    childComputed: {
-      get() {
-        return this.newTodo;
-      },
-      set(newVal) {
-        this.$emit("input", newVal);
-      }
+  // computed: {
+  //   childComputed: {
+  //     get() {
+  //       return this.childInput;
+  //     },
+  //     set(newVal) {
+  //       this.$emit("input", newVal);
+  //     }
+  //   }
+  // },
+  watch: {
+    // newTodo: function(oldVal) {
+    //   this.childInput = oldVal;
+    //   console.log(oldVal);
+    // },
+    childInput: function(oldval, newValue) {
+      this.$emit("input", newValue);
     }
   },
   methods: {
-    addTodoFromChild: function() {
+    addTaskFromChild: function() {
       this.$emit("addTodo");
+      this.childInput = "";
     }
   }
 };
