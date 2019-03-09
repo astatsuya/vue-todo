@@ -1,25 +1,21 @@
 <template>
   <div>
     <div class="toggle-area">
-      <button @click="changeShowTodo('all')">All</button>
-      <button @click="changeShowTodo('inProgress')">In progress</button>
-      <button @click="changeShowTodo('done')">Done</button>
+      <button @click="$emit('changeShowTodo', 'all')">All</button>
+      <button @click="$emit('changeShowTodo', 'inProgress')">
+        In progress
+      </button>
+      <button @click="$emit('changeShowTodo', 'done')">Done</button>
     </div>
   </div>
 </template>
+
 <script>
 export default {
-  name: "ToggleArea",
-  props: {
-    changeShowTodo: {
-      type: Function,
-      default: function() {
-        return;
-      }
-    }
-  }
+  name: "ToggleArea"
 };
 </script>
+
 <style lang="scss" scoped>
 @mixin flex-vender() {
   display: flex;
