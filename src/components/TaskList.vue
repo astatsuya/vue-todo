@@ -18,30 +18,19 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "TaskList",
-  props: {
-    todos: {
-      type: Array,
-      default: function() {
-        return [];
-      }
-    },
-    showTodo: {
-      type: String,
-      default: function() {
-        return "all";
-      }
-    }
-  },
   computed: {
+    ...mapState(["todos", "showTodo"]),
     toggle: function() {
-      if (this.showTodo === "all") {
-        return this.todos;
+      if (this.showTodo === "done") {
+        return this.todos.filter(todos => todos.done === true);
       } else if (this.showTodo === "inProgress") {
         return this.todos.filter(todos => todos.done === false);
       } else {
-        return this.todos.filter(todos => todos.done === true);
+        return this.todos;
       }
     }
   }
