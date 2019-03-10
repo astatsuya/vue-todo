@@ -9,7 +9,10 @@ const moduleTodo = {
       { id: 5, text: "vue-router", done: true }
     ],
     newTodo: "",
-    showTodo: "all"
+    showTodo: "all",
+    modal: false,
+    contextMenuY: "",
+    contextMenuX: ""
   },
   mutations: {
     input: function(state, child) {
@@ -35,6 +38,15 @@ const moduleTodo = {
     },
     changeShowTodo(state, e) {
       state.showTodo = e;
+    },
+    closeModal(state) {
+      state.modal = false;
+      return;
+    },
+    openModal(state, e) {
+      state.contextMenuY = `${e.pageY + 20}px`;
+      state.contextMenuX = `${e.pageX + 20}px`;
+      state.modal = true;
     }
   },
   actions: {}

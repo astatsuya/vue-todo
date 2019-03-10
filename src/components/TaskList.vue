@@ -1,5 +1,5 @@
 <template>
-  <div class="task-list">
+  <div class="task-list" @click.right.prevent="openModal">
     <label
       v-for="todo in toggle"
       :key="todo.id"
@@ -15,15 +15,44 @@
       />
       <span v-else>{{ todo.text }}</span>
     </label>
+    <div v-show="modal">
+      <div class="modal-outside" @click.self="closeModal">
+        <div
+          class="modal-inside"
+          :style="{ top: contextMenuY, left: contextMenuX }"
+        >
+          <button type="button" @click="alert">click</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "TaskList",
+  // data: function() {
+  //   return {
+
+  //   };
+  // },
   computed: {
-    ...mapState("todo", ["todos", "showTodo"]),
+    ...mapState("todo", [
+      "todos",
+      "showTodo",
+      "modal",
+      "contextMenuX",
+      "contextMenuY"
+    ]),
+    // closeAndOpen: {
+    //   get() {
+    //     return this.modal;
+    //   },
+    //   set() {
+    //     this.closeModal;
+    //   }
+    // },
     toggle: function() {
       if (this.showTodo === "done") {
         return this.todos.filter(todos => todos.done === true);
@@ -32,6 +61,13 @@ export default {
       } else {
         return this.todos;
       }
+    }
+  },
+  methods: {
+    ...mapMutations("todo", ["closeModal", "openModal"]),
+    alert() {
+      alert("click");
+      this.closeModal();
     }
   }
 };
@@ -56,6 +92,25 @@ export default {
       @extend #{$element};
       color: #85a6c6;
     }
+  }
+}
+.modal-outside {
+  // background-color: pink;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal-inside {
+  position: absolute;
+  // top: 30px;
+  // left: 30px;
+  display: block;
+  button {
+    width: 200px;
+    height: 200px;
   }
 }
 </style>
