@@ -3,7 +3,8 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const moduleTodo = {
+  namespaced: true,
   state: {
     msg: "Welcome to my Todo",
     todos: [
@@ -43,4 +44,10 @@ export default new Vuex.Store({
     }
   },
   actions: {}
+};
+
+export default new Vuex.Store({
+  modules: {
+    todo: moduleTodo
+  }
 });

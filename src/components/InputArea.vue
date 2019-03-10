@@ -10,8 +10,8 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import { mapMutations } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+const { mapState, mapMutations } = createNamespacedHelpers("todo");
 
 export default {
   name: "InputArea",

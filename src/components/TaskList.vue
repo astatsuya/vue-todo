@@ -23,7 +23,7 @@ import { mapState } from "vuex";
 export default {
   name: "TaskList",
   computed: {
-    ...mapState(["todos", "showTodo"]),
+    ...mapState("todo", ["todos", "showTodo"]),
     toggle: function() {
       if (this.showTodo === "done") {
         return this.todos.filter(todos => todos.done === true);
