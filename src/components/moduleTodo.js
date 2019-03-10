@@ -1,7 +1,6 @@
 const moduleTodo = {
   namespaced: true,
   state: {
-    msg: "Welcome to my Todo",
     todos: [
       { id: 1, text: "vue-router", done: false },
       { id: 2, text: "vuex", done: false },
