@@ -1,7 +1,7 @@
 <template>
   <div class="input-area">
-    <button @click="$emit('addTodo')">ADD TASK</button>
-    <button @click="$emit('removeTodo')">DELETE FINISHED TASKS</button>
+    <button @click="addTodo">ADD TASK</button>
+    <button @click="removeTodo">DELETE FINISHED TASKS</button>
     <p>
       input:
       <input v-model="inputValue" type="text" />
@@ -10,25 +10,24 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
+import { mapMutations } from "vuex";
+
 export default {
   name: "InputArea",
-  props: {
-    newTodo: {
-      type: String,
-      default: function() {
-        return "";
-      }
-    }
-  },
   computed: {
+    ...mapState(["todos", "newTodo"]),
     inputValue: {
       get() {
         return this.newTodo;
       },
       set(value) {
-        this.$emit("input", value);
+        this.input(value);
       }
     }
+  },
+  methods: {
+    ...mapMutations(["input", "addTodo", "removeTodo"])
   }
 };
 </script>
