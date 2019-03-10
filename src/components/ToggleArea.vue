@@ -1,18 +1,21 @@
 <template>
   <div>
     <div class="toggle-area">
-      <button @click="$emit('changeShowTodo', 'all')">All</button>
-      <button @click="$emit('changeShowTodo', 'inProgress')">
-        In progress
-      </button>
-      <button @click="$emit('changeShowTodo', 'done')">Done</button>
+      <button @click="changeShowTodo('all')">All</button>
+      <button @click="changeShowTodo('inProgress')">In progress</button>
+      <button @click="changeShowTodo('done')">Done</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
-  name: "ToggleArea"
+  name: "ToggleArea",
+  methods: {
+    ...mapMutations(["changeShowTodo"])
+  }
 };
 </script>
 
